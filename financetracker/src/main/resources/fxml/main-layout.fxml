@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefWidth="1200"
+            prefHeight="700"
+            styleClass="root-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <left>
+        <VBox spacing="20" styleClass="sidebar">
+
+            <!-- Logo -->
+            <VBox spacing="5">
+                <Label text="FinancePro"
+                       styleClass="logo-text"/>
+
+                <Label text="Enterprise Tier"
+                       styleClass="subtitle"/>
+            </VBox>
+
+            <!-- Navigation -->
+            <VBox spacing="10">
+
+                <Button text="Dashboard"
+                        styleClass="nav-button"/>
+
+                <Button text="Add Transaction"
+                        styleClass="nav-button"/>
+
+                <Button text="History"
+                        styleClass="nav-button active"/>
+
+            </VBox>
+
+            <!-- Spacer -->
+            <VBox VBox.vgrow="ALWAYS"/>
+
+            <!-- Bottom Button -->
+            <Button text="+ New Report"
+                    styleClass="report-button"/>
+
+        </VBox>
+    </left>
+
+    <!-- ================= TOPBAR ================= -->
+
+    <top>
+        <HBox spacing="20"
+              alignment="CENTER_LEFT"
+              styleClass="topbar">
+
+            <!-- Title -->
+            <Label text="Finance Tracker"
+                   styleClass="top-title"/>
+
+            <!-- Spacer -->
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Search -->
+            <TextField promptText="Search transactions..."
+                       styleClass="search-field"/>
+
+            <!-- Icons -->
+            <Button text="🔔"
+                    styleClass="icon-button"/>
+
+            <Button text="⚙"
+                    styleClass="icon-button"/>
+
+            <!-- Profile -->
+            <Label text="👤"
+                   styleClass="profile-icon"/>
+
+        </HBox>
+    </top>
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <center>
+
+        <VBox spacing="25"
+              styleClass="content-container">
+
+            <!-- Page Header -->
+            <VBox spacing="5">
+
+                <Label text="Transaction History"
+                       styleClass="page-title"/>
+
+                <Label text="Review and filter your recent financial activities."
+                       styleClass="page-subtitle"/>
+
+            </VBox>
+
+            <!-- Filters -->
+            <HBox spacing="15"
+                  alignment="CENTER_LEFT">
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <ComboBox promptText="All Categories"
+                          styleClass="filter-box"/>
+
+                <ComboBox promptText="Last 30 Days"
+                          styleClass="filter-box"/>
+
+                <Button text="Export"
+                        styleClass="export-button"/>
+
+            </HBox>
+
+            <!-- Table Placeholder -->
+            <VBox spacing="10"
+                  styleClass="table-container">
+
+                <Label text="Transaction Table Here"
+                       styleClass="table-placeholder"/>
+
+            </VBox>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>
