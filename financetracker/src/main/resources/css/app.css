@@ -106,9 +106,16 @@
     -fx-padding: 30;
 }
 
+/* ================= HEADER BOX ================= */
+
+.header-box {
+    -fx-padding: 20 10 0 10;
+    -fx-min-height: 100;
+}
+
 .page-title {
     -fx-text-fill: white;
-    -fx-font-size: 34px;
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
 }
 
@@ -117,32 +124,165 @@
     -fx-font-size: 14px;
 }
 
-/* Filters */
-
+/* Filters & ComboBox */
 .filter-box {
     -fx-background-color: #232329;
     -fx-text-fill: white;
-    -fx-background-radius: 10;
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-pref-height: 32;
 }
 
+.filter-box .list-cell {
+    -fx-text-fill: #ccc;
+}
+
+.filter-box:hover {
+    -fx-background-color: #2e2e36;
+}
+
+/* Export Button
+   CATATAN: height disinkronisasi via Java (bind ke ComboBox height).
+   CSS hanya mengatur tampilan visual, BUKAN ukuran. */
 .export-button {
     -fx-background-color: #232329;
     -fx-text-fill: white;
-    -fx-background-radius: 10;
-    -fx-padding: 10 18;
+    -fx-background-radius: 8;
+    -fx-font-size: 12px;
     -fx-cursor: hand;
+    -fx-padding: 0 12;
+    /* Jangan set pref/min/max height di sini — biarkan Java yang handle */
+}
+
+.export-button:hover {
+    -fx-background-color: #2e2e36;
 }
 
 /* ================= TABLE ================= */
 
-.table-container {
+.transaction-table {
     -fx-background-color: #151518;
-    -fx-background-radius: 18;
-    -fx-padding: 25;
-    -fx-pref-height: 500;
+    -fx-background-radius: 16;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
 }
 
-.table-placeholder {
+.transaction-table .filler {
+    -fx-background-color: #151518;
+}
+
+.transaction-table .column-header-background {
+    -fx-background-color: #151518;
+    -fx-background-radius: 16 16 0 0;
+}
+
+.transaction-table .column-header-background .filler {
+    -fx-background-color: #151518;
+}
+
+.transaction-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #2a2a30 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.transaction-table .column-header .label {
     -fx-text-fill: #777;
-    -fx-font-size: 16px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 14 16;
+    /* Header label alignment — ini berlaku untuk header */
+    -fx-alignment: CENTER_LEFT;
+}
+
+.transaction-table .table-row-cell {
+    -fx-background-color: #151518;
+    -fx-border-color: transparent transparent #1e1e24 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.transaction-table .table-row-cell:selected {
+    -fx-background-color: #1a2a3a;
+}
+
+.transaction-table .table-row-cell:empty {
+    -fx-background-color: #151518;
+    -fx-border-color: transparent;
+}
+
+/*
+ * PENTING: Jangan set -fx-alignment di .table-cell via CSS global.
+ * JavaFX mengabaikan !important, dan alignment global akan override
+ * alignment yang di-set per-cell di Java.
+ * Alignment diatur per-kolom di MainController via setAlignment(Pos.X).
+ */
+.transaction-table .table-row-cell .table-cell {
+    -fx-text-fill: #ddd;
+    -fx-font-size: 13px;
+    -fx-padding: 18 16;
+    /* TIDAK ada -fx-alignment di sini — dihandle Java */
+}
+
+/* Scrollbar */
+
+.transaction-table .scroll-bar:vertical {
+    -fx-background-color: #151518;
+    -fx-pref-width: 8;
+}
+
+.transaction-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #333;
+    -fx-background-radius: 4;
+}
+
+.transaction-table .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.transaction-table .scroll-bar:vertical .increment-button,
+.transaction-table .scroll-bar:vertical .decrement-button {
+    -fx-pref-height: 0;
+    -fx-padding: 0;
+}
+
+/* Remove focus ring */
+
+.transaction-table:focused {
+    -fx-background-color: #151518;
+}
+
+/* ================= CATEGORY BADGES ================= */
+
+.category-badge {
+    -fx-padding: 5 12;
+    -fx-background-radius: 6;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.badge-software {
+    -fx-background-color: rgba(6, 95, 70, 0.25);
+    -fx-text-fill: #4ADE80;
+}
+
+.badge-revenue {
+    -fx-background-color: rgba(6, 95, 70, 0.25);
+    -fx-text-fill: #4ADE80;
+}
+
+.badge-travel {
+    -fx-background-color: rgba(127, 29, 29, 0.25);
+    -fx-text-fill: #F87171;
+}
+
+.badge-marketing {
+    -fx-background-color: rgba(120, 53, 15, 0.25);
+    -fx-text-fill: #FBBF24;
+}
+
+.badge-office {
+    -fx-background-color: rgba(30, 58, 95, 0.25);
+    -fx-text-fill: #60A5FA;
 }

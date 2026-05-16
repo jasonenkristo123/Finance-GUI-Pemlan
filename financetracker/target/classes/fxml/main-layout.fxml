@@ -6,6 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="frontend.controllers.MainController"
             prefWidth="1200"
             prefHeight="700"
             styleClass="root-container">
@@ -14,37 +15,19 @@
 
     <left>
         <VBox spacing="20" styleClass="sidebar">
-
-            <!-- Logo -->
             <VBox spacing="5">
-                <Label text="FinancePro"
-                       styleClass="logo-text"/>
-
-                <Label text="Enterprise Tier"
-                       styleClass="subtitle"/>
+                <Label text="FinancePro" styleClass="logo-text"/>
+                <Label text="Enterprise Tier" styleClass="subtitle"/>
             </VBox>
 
-            <!-- Navigation -->
             <VBox spacing="10">
-
-                <Button text="Dashboard"
-                        styleClass="nav-button"/>
-
-                <Button text="Add Transaction"
-                        styleClass="nav-button"/>
-
-                <Button text="History"
-                        styleClass="nav-button active"/>
-
+                <Button fx:id="dashboardBtn" text="Dashboard" styleClass="nav-button" onAction="#handleNavigation"/>
+                <Button fx:id="addTransactionBtn" text="Add Transaction" styleClass="nav-button" onAction="#handleNavigation"/>
+                <Button fx:id="historyBtn" text="History" styleClass="nav-button active" onAction="#handleNavigation"/>
             </VBox>
 
-            <!-- Spacer -->
             <VBox VBox.vgrow="ALWAYS"/>
-
-            <!-- Bottom Button -->
-            <Button text="+ New Report"
-                    styleClass="report-button"/>
-
+            <Button text="+ New Report" styleClass="report-button"/>
         </VBox>
     </left>
 
@@ -83,49 +66,56 @@
     <!-- ================= MAIN CONTENT ================= -->
 
     <center>
+        <StackPane>
 
-        <VBox spacing="25"
-              styleClass="content-container">
-
-            <!-- Page Header -->
-            <VBox spacing="5">
-
-                <Label text="Transaction History"
-                       styleClass="page-title"/>
-
-                <Label text="Review and filter your recent financial activities."
-                       styleClass="page-subtitle"/>
-
+            <VBox fx:id="dashboardPage" visible="false" managed="false" styleClass="content-container" alignment="CENTER">
+                <Label text="Dashboard View (Blank)" style="-fx-text-fill: white; -fx-font-size: 24px;"/>
             </VBox>
 
-            <!-- Filters -->
-            <HBox spacing="15"
-                  alignment="CENTER_LEFT">
-
-                <Region HBox.hgrow="ALWAYS"/>
-
-                <ComboBox promptText="All Categories"
-                          styleClass="filter-box"/>
-
-                <ComboBox promptText="Last 30 Days"
-                          styleClass="filter-box"/>
-
-                <Button text="Export"
-                        styleClass="export-button"/>
-
-            </HBox>
-
-            <!-- Table Placeholder -->
-            <VBox spacing="10"
-                  styleClass="table-container">
-
-                <Label text="Transaction Table Here"
-                       styleClass="table-placeholder"/>
-
+            <VBox fx:id="addTransactionPage" visible="false" managed="false" styleClass="content-container" alignment="CENTER">
+                <Label text="Add Transaction View (Blank)" style="-fx-text-fill: white; -fx-font-size: 24px;"/>
             </VBox>
 
-        </VBox>
+            <VBox fx:id="historyPage" visible="true" managed="true" spacing="25" styleClass="content-container">
 
+                <BorderPane styleClass="header-box">
+                    <left>
+                        <VBox spacing="5" BorderPane.alignment="CENTER_LEFT">
+                            <Label text="Transaction History"
+                                   styleClass="page-title"/>
+                            <Label text="Review and filter your recent financial activities."
+                                   styleClass="page-subtitle"/>
+                        </VBox>
+                    </left>
+                    <right>
+                        <HBox spacing="10" alignment="BOTTOM_RIGHT" BorderPane.alignment="BOTTOM_RIGHT">
+                            <padding>
+                                <Insets bottom="5"/>
+                            </padding>
+                            <!-- fx:id ditambahkan agar bisa di-bind height-nya dari controller -->
+                            <ComboBox fx:id="categoryFilter" promptText="All Categories"
+                                      styleClass="filter-box"/>
+                            <ComboBox fx:id="dateFilter" promptText="Last 30 Days"
+                                      styleClass="filter-box"/>
+                            <Button fx:id="exportButton" text="↓ Export"
+                                    styleClass="export-button"/>
+                        </HBox>
+                    </right>
+                </BorderPane>
+
+
+                <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS" styleClass="transaction-table">
+                    <columns>
+                        <TableColumn fx:id="dateColumn"     text="DATE"     prefWidth="140" sortable="false"/>
+                        <TableColumn fx:id="categoryColumn" text="CATEGORY" prefWidth="160" sortable="false"/>
+                        <TableColumn fx:id="typeColumn"     text="TYPE"     prefWidth="160" sortable="false"/>
+                        <TableColumn fx:id="notesColumn"    text="NOTES"    prefWidth="300" sortable="false"/>
+                        <TableColumn fx:id="amountColumn"   text="AMOUNT"   prefWidth="170" sortable="false"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+        </StackPane>
     </center>
 
 </BorderPane>
