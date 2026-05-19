@@ -82,9 +82,9 @@
                     <left>
                         <VBox spacing="5" BorderPane.alignment="CENTER_LEFT">
                             <Label text="Transaction History"
-                                   styleClass="page-title"/>
+                                styleClass="page-title"/>
                             <Label text="Review and filter your recent financial activities."
-                                   styleClass="page-subtitle"/>
+                                styleClass="page-subtitle"/>
                         </VBox>
                     </left>
                     <right>
@@ -94,9 +94,9 @@
                             </padding>
                             <!-- fx:id ditambahkan agar bisa di-bind height-nya dari controller -->
                             <ComboBox fx:id="categoryFilter" promptText="All Categories"
-                                      styleClass="filter-box"/>
+                                    styleClass="filter-box"/>
                             <ComboBox fx:id="dateFilter" promptText="Last 30 Days"
-                                      styleClass="filter-box"/>
+                                    styleClass="filter-box"/>
                             <Button fx:id="exportButton" text="↓ Export"
                                     styleClass="export-button"/>
                         </HBox>
