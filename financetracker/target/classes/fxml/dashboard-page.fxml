@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="frontend.controllers.DashboardController"
+      spacing="25"
+      styleClass="content-container">
+
+    <!-- ================= METRIC CARDS ROW ================= -->
+    <HBox spacing="20">
+        <!-- Card 1: Credit Balance -->
+        <VBox styleClass="stat-card card-balance" HBox.hgrow="ALWAYS" spacing="12">
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="4">
+                    <Label text="CREDIT BALANCE" styleClass="stat-card-title"/>
+                    <Label fx:id="balanceLabel" text="$$12,450.00" styleClass="stat-card-value"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <!-- Logo/Icon badge -->
+                <Label text="💳" styleClass="stat-card-icon-badge"/>
+            </HBox>
+            <Label text="▲ +15% from last month" styleClass="stat-card-trend-up"/>
+        </VBox>
+
+        <!-- Card 2: Total Income -->
+        <VBox styleClass="stat-card card-income" HBox.hgrow="ALWAYS" spacing="12">
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="4">
+                    <Label text="TOTAL INCOME" styleClass="stat-card-title"/>
+                    <Label fx:id="incomeLabel" text="$$15,200.00" styleClass="stat-card-value"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="▲" styleClass="stat-card-icon-badge, badge-green"/>
+            </HBox>
+            <Label text="▲ +8% of monthly goal" styleClass="stat-card-trend-up"/>
+        </VBox>
+
+        <!-- Card 3: Total Expense -->
+        <VBox styleClass="stat-card card-expense" HBox.hgrow="ALWAYS" spacing="12">
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="4">
+                    <Label text="TOTAL EXPENSE" styleClass="stat-card-title"/>
+                    <Label fx:id="expenseLabel" text="$$2,750.00" styleClass="stat-card-value"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="▼" styleClass="stat-card-icon-badge, badge-red"/>
+            </HBox>
+            <Label text="▼ 22% of monthly budget" styleClass="stat-card-trend-down"/>
+        </VBox>
+    </HBox>
+
+    <!-- ================= DATA DISPLAY LAYOUT ================= -->
+    <HBox spacing="25" VBox.vgrow="ALWAYS">
+        
+        <!-- Left: Recent Transactions Card -->
+        <VBox styleClass="card-panel" HBox.hgrow="ALWAYS" spacing="15">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Recent Transactions" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="View All" fx:id="viewAllBtn" onAction="#handleViewAll" styleClass="view-all-button"/>
+            </HBox>
+
+            <TableView fx:id="recentTable" VBox.vgrow="ALWAYS" styleClass="transaction-table">
+                <columns>
+                    <TableColumn fx:id="categoryColumn" text="CATEGORY" prefWidth="180" sortable="false"/>
+                    <TableColumn fx:id="dateColumn"     text="DATE"     prefWidth="130" sortable="false"/>
+                    <TableColumn fx:id="amountColumn"   text="AMOUNT"   prefWidth="160" sortable="false"/>
+                    <TableColumn fx:id="statusColumn"   text="STATUS"   prefWidth="140" sortable="false"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Right: Expense Breakdown Donut Chart Panel -->
+        <VBox styleClass="card-panel" prefWidth="350" minWidth="350" spacing="15">
+            <Label text="Expense Breakdown" styleClass="section-title"/>
+            
+            <!-- Donut Chart representation -->
+            <StackPane prefHeight="220" alignment="CENTER">
+                <PieChart fx:id="expensePieChart" legendVisible="false" labelsVisible="false"/>
+                <!-- Center overlay label making it look like a Donut -->
+                <VBox alignment="CENTER" mouseTransparent="true" spacing="2" styleClass="donut-overlay">
+                    <Label text="Total" styleClass="donut-label-sub"/>
+                    <Label fx:id="donutTotalLabel" text="$$2,750" styleClass="donut-label-val"/>
+                </VBox>
+            </StackPane>
+
+            <!-- Custom Category list breakdown below chart -->
+            <VBox spacing="10">
+                <HBox alignment="CENTER_LEFT" styleClass="breakdown-row">
+                    <Region styleClass="dot-indicator, dot-housing"/>
+                    <Label text="Housing" styleClass="breakdown-label"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="housingPercentLabel" text="58%" styleClass="breakdown-percentage"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" styleClass="breakdown-row">
+                    <Region styleClass="dot-indicator, dot-food"/>
+                    <Label text="Food &amp; Dining" styleClass="breakdown-label"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="foodPercentLabel" text="18%" styleClass="breakdown-percentage"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" styleClass="breakdown-row">
+                    <Region styleClass="dot-indicator, dot-transport"/>
+                    <Label text="Transport" styleClass="breakdown-label"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="transportPercentLabel" text="14%" styleClass="breakdown-percentage"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" styleClass="breakdown-row">
+                    <Region styleClass="dot-indicator, dot-other"/>
+                    <Label text="Other" styleClass="breakdown-label"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="otherPercentLabel" text="10%" styleClass="breakdown-percentage"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </HBox>
+</VBox>

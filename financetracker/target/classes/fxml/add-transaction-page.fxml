@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="frontend.controllers.AddTransactionController"
+           styleClass="content-container">
+
+    <!-- Elevated Floating Form Card -->
+    <VBox styleClass="form-card" maxWidth="500" spacing="20" alignment="TOP_LEFT">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <!-- Header -->
+        <VBox spacing="6">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="📝" style="-fx-font-size: 20px;"/>
+                <Label text="Record New Entry" styleClass="form-card-title"/>
+            </HBox>
+            <Label text="Log an income or expense to keep your balances accurate." styleClass="form-card-subtitle"/>
+        </VBox>
+
+        <!-- Divider -->
+        <Region styleClass="form-divider"/>
+
+        <!-- Inputs Form Grid -->
+        <GridPane hgap="20" vgap="18">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50"/>
+                <ColumnConstraints percentWidth="50"/>
+            </columnConstraints>
+
+            <!-- Row 0: Transaction Type & Amount -->
+            <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label text="Transaction Type" styleClass="form-label"/>
+                <ComboBox fx:id="typeInput" promptText="Select Type" maxWidth="Infinity" styleClass="form-field"/>
+            </VBox>
+
+            <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label text="Amount" styleClass="form-label"/>
+                <HBox alignment="CENTER_LEFT" styleClass="amount-field-container">
+                    <Label text="$$" styleClass="amount-currency-symbol"/>
+                    <TextField fx:id="amountInput" promptText="0.00" styleClass="amount-input-field" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </VBox>
+
+            <!-- Row 1: Category & Date -->
+            <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Label text="Category" styleClass="form-label"/>
+                <ComboBox fx:id="categoryInput" promptText="Select category..." maxWidth="Infinity" styleClass="form-field"/>
+            </VBox>
+
+            <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Label text="Date" styleClass="form-label"/>
+                <DatePicker fx:id="dateInput" promptText="mm/dd/yyyy" maxWidth="Infinity" styleClass="form-field, form-datepicker"/>
+            </VBox>
+
+            <!-- Row 2: Notes / Description (Span 2 Columns) -->
+            <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2">
+                <Label text="Notes / Description" styleClass="form-label"/>
+                <TextArea fx:id="notesInput" promptText="Add details about this transaction..." prefHeight="90" wrapText="true" styleClass="form-field, form-textarea"/>
+            </VBox>
+        </GridPane>
+
+        <!-- Error/Validation feedback Label -->
+        <Label fx:id="validationErrorLabel" text="" styleClass="form-error-label" visible="false" managed="false"/>
+
+        <!-- Action Buttons -->
+        <HBox spacing="15" alignment="CENTER_RIGHT" maxWidth="Infinity">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <Button text="Cancel" onAction="#handleCancel" styleClass="form-cancel-button"/>
+            <Button text="Save Transaction" onAction="#handleSave" styleClass="form-save-button"/>
+        </HBox>
+
+    </VBox>
+</StackPane>
