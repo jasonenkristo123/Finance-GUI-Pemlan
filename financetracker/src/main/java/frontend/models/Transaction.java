@@ -9,13 +9,19 @@ public class Transaction {
     private final StringProperty type;
     private final StringProperty notes;
     private final DoubleProperty amount;
+    private final StringProperty status;
 
     public Transaction(String date, String category, String type, String notes, double amount) {
+        this(date, category, type, notes, amount, "Completed");
+    }
+
+    public Transaction(String date, String category, String type, String notes, double amount, String status) {
         this.date = new SimpleStringProperty(date);
         this.category = new SimpleStringProperty(category);
         this.type = new SimpleStringProperty(type);
         this.notes = new SimpleStringProperty(notes);
         this.amount = new SimpleDoubleProperty(amount);
+        this.status = new SimpleStringProperty(status);
     }
 
     // Property accessors (needed by TableView)
@@ -24,6 +30,7 @@ public class Transaction {
     public StringProperty typeProperty() { return type; }
     public StringProperty notesProperty() { return notes; }
     public DoubleProperty amountProperty() { return amount; }
+    public StringProperty statusProperty() { return status; }
 
     // Standard getters
     public String getDate() { return date.get(); }
@@ -31,4 +38,5 @@ public class Transaction {
     public String getType() { return type.get(); }
     public String getNotes() { return notes.get(); }
     public double getAmount() { return amount.get(); }
+    public String getStatus() { return status.get(); }
 }

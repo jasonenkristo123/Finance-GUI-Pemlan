@@ -1,8 +1,8 @@
-/* ROOT */
+/* ================= DYNAMIC STYLE SYSTEM ================= */
 
 .root-container {
     -fx-background-color: #0F0F11;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Segoe UI", -apple-system, sans-serif;
 }
 
 /* ================= SIDEBAR ================= */
@@ -34,6 +34,7 @@
     -fx-padding: 12 16;
     -fx-background-radius: 10;
     -fx-cursor: hand;
+    -fx-pref-width: 190;
 }
 
 .nav-button:hover {
@@ -41,8 +42,9 @@
 }
 
 .active {
-    -fx-background-color: #00C2FF22;
+    -fx-background-color: #00C2FF18;
     -fx-text-fill: #00C2FF;
+    -fx-font-weight: bold;
 }
 
 /* Report Button */
@@ -54,6 +56,10 @@
     -fx-background-radius: 12;
     -fx-padding: 10 18;
     -fx-cursor: hand;
+}
+
+.report-button:hover {
+    -fx-background-color: #26D0FF;
 }
 
 /* ================= TOPBAR ================= */
@@ -71,7 +77,7 @@
     -fx-font-weight: bold;
 }
 
-/* Search */
+/* Search Field */
 
 .search-field {
     -fx-background-color: #232329;
@@ -80,6 +86,12 @@
     -fx-background-radius: 10;
     -fx-padding: 10 14;
     -fx-pref-width: 250;
+    -fx-border-color: #333;
+    -fx-border-radius: 10;
+}
+
+.search-field:focused {
+    -fx-border-color: #00C2FF;
 }
 
 /* Icon Buttons */
@@ -100,86 +112,303 @@
     -fx-font-size: 18px;
 }
 
-/* ================= CONTENT ================= */
+/* ================= GENERAL CONTENT CONTAINER ================= */
 
 .content-container {
     -fx-padding: 30;
+    -fx-background-color: #0F0F11;
 }
 
-/* ================= HEADER BOX ================= */
+/* ================= METRIC CARDS ================= */
 
-.header-box {
-    -fx-padding: 20 10 0 10;
-    -fx-min-height: 100;
+.stat-card {
+    -fx-background-color: #151518;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-border-color: #232329;
+    -fx-border-radius: 16;
+    -fx-border-width: 1px;
 }
 
-.page-title {
-    -fx-text-fill: white;
-    -fx-font-size: 32px;
+.stat-card-title {
+    -fx-text-fill: #888888;
+    -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
 
-.page-subtitle {
-    -fx-text-fill: #888;
-    -fx-font-size: 14px;
-}
-
-/* Filters & ComboBox */
-.filter-box {
-    -fx-background-color: #232329;
+.stat-card-value {
     -fx-text-fill: white;
-    -fx-background-radius: 8;
-    -fx-padding: 4 8;
-    -fx-font-size: 12px;
-    -fx-cursor: hand;
-    -fx-pref-height: 32;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
 }
 
-.filter-box .list-cell {
-    -fx-text-fill: #ccc;
-}
-
-.filter-box:hover {
-    -fx-background-color: #2e2e36;
-}
-
-/* Export Button
-   CATATAN: height disinkronisasi via Java (bind ke ComboBox height).
-   CSS hanya mengatur tampilan visual, BUKAN ukuran. */
-.export-button {
+.stat-card-icon-badge {
+    -fx-font-size: 18px;
+    -fx-padding: 8;
     -fx-background-color: #232329;
-    -fx-text-fill: white;
-    -fx-background-radius: 8;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 38;
+    -fx-pref-height: 38;
+    -fx-alignment: CENTER;
+}
+
+.badge-green {
+    -fx-text-fill: #4ADE80;
+    -fx-background-color: rgba(74, 222, 128, 0.1);
+}
+
+.badge-red {
+    -fx-text-fill: #F87171;
+    -fx-background-color: rgba(248, 113, 113, 0.1);
+}
+
+.stat-card-trend-up {
+    -fx-text-fill: #4ADE80;
     -fx-font-size: 12px;
-    -fx-cursor: hand;
-    -fx-padding: 0 12;
-    /* Jangan set pref/min/max height di sini — biarkan Java yang handle */
+    -fx-font-weight: bold;
 }
 
-.export-button:hover {
-    -fx-background-color: #2e2e36;
+.stat-card-trend-down {
+    -fx-text-fill: #F87171;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }
 
-/* ================= TABLE ================= */
+/* ================= PANELS (CARDS WITH TABLES/CHARTS) ================= */
 
-.transaction-table {
+.card-panel {
     -fx-background-color: #151518;
     -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-border-color: #232329;
+    -fx-border-radius: 16;
+}
+
+.section-title {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.view-all-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #00C2FF;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.view-all-button:hover {
+    -fx-text-fill: #26D0FF;
+    -fx-underline: true;
+}
+
+/* ================= DONUT CHART OVERLAY ================= */
+
+.donut-overlay {
+    -fx-alignment: CENTER;
+}
+
+.donut-label-sub {
+    -fx-text-fill: #777777;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-transform: uppercase;
+}
+
+.donut-label-val {
+    -fx-text-fill: white;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+/* PieChart Slices (Housing, Food, Transport, Other) */
+.chart-pie.default-color0 {
+    -fx-pie-color: #FBBF24; /* Housing - Yellow/Orange */
+    -fx-border-color: #151518;
+    -fx-border-width: 3px;
+}
+.chart-pie.default-color1 {
+    -fx-pie-color: #00C2FF; /* Food - Cyan */
+    -fx-border-color: #151518;
+    -fx-border-width: 3px;
+}
+.chart-pie.default-color2 {
+    -fx-pie-color: #4ADE80; /* Transport - Green */
+    -fx-border-color: #151518;
+    -fx-border-width: 3px;
+}
+.chart-pie.default-color3 {
+    -fx-pie-color: #818CF8; /* Other - Purple/Indigo */
+    -fx-border-color: #151518;
+    -fx-border-width: 3px;
+}
+
+/* Breakdown Row dot indicators */
+
+.breakdown-row {
+    -fx-padding: 8 0;
+    -fx-border-color: transparent transparent #222 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.dot-indicator {
+    -fx-pref-width: 10;
+    -fx-pref-height: 10;
+    -fx-background-radius: 50%;
+    -fx-margin: 0 12 0 0;
+}
+
+.dot-housing { -fx-background-color: #FBBF24; }
+.dot-food { -fx-background-color: #00C2FF; }
+.dot-transport { -fx-background-color: #4ADE80; }
+.dot-other { -fx-background-color: #818CF8; }
+
+.breakdown-label {
+    -fx-text-fill: #BBBBBB;
+    -fx-font-size: 13px;
+    -fx-padding: 0 0 0 8;
+}
+
+.breakdown-percentage {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* ================= Centered Form Card (Add Transaction Modal) ================= */
+
+.form-card {
+    -fx-background-color: #1A1A1E;
+    -fx-background-radius: 16;
+    -fx-border-color: #2E2E36;
+    -fx-border-radius: 16;
+    -fx-border-width: 1px;
+}
+
+.form-card-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.form-card-subtitle {
+    -fx-text-fill: #888888;
+    -fx-font-size: 12px;
+}
+
+.form-divider {
+    -fx-background-color: #2E2E36;
+    -fx-pref-height: 1;
+    -fx-min-height: 1;
+    -fx-max-height: 1;
+}
+
+.form-label {
+    -fx-text-fill: #AAAAAA;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.form-field {
+    -fx-background-color: #232329;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14;
+    -fx-border-color: #33333C;
+    -fx-border-radius: 8;
+    -fx-font-size: 13px;
+}
+
+.form-field:focused {
+    -fx-border-color: #00C2FF;
+}
+
+/* Customize DatePicker Calendar button & inner textfield */
+.form-datepicker .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 0;
+}
+
+.form-textarea {
+    -fx-padding: 6 10;
+}
+
+.amount-field-container {
+    -fx-background-color: #232329;
+    -fx-border-color: #33333C;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 0 14;
+    -fx-pref-height: 42;
+}
+
+.amount-currency-symbol {
+    -fx-text-fill: #888;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 8 0 0;
+}
+
+.amount-input-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 0;
+    -fx-font-weight: bold;
+}
+
+.form-error-label {
+    -fx-text-fill: #F87171;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.form-cancel-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #888;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.form-cancel-button:hover {
+    -fx-text-fill: white;
+}
+
+.form-save-button {
+    -fx-background-color: #00C2FF;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.form-save-button:hover {
+    -fx-background-color: #26D0FF;
+}
+
+/* ================= TABLES ================= */
+
+.transaction-table {
+    -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-padding: 0;
 }
 
 .transaction-table .filler {
-    -fx-background-color: #151518;
+    -fx-background-color: transparent;
 }
 
 .transaction-table .column-header-background {
-    -fx-background-color: #151518;
-    -fx-background-radius: 16 16 0 0;
+    -fx-background-color: transparent;
 }
 
 .transaction-table .column-header-background .filler {
-    -fx-background-color: #151518;
+    -fx-background-color: transparent;
 }
 
 .transaction-table .column-header {
@@ -193,12 +422,11 @@
     -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-padding: 14 16;
-    /* Header label alignment — ini berlaku untuk header */
     -fx-alignment: CENTER_LEFT;
 }
 
 .transaction-table .table-row-cell {
-    -fx-background-color: #151518;
+    -fx-background-color: transparent;
     -fx-border-color: transparent transparent #1e1e24 transparent;
     -fx-border-width: 0 0 1 0;
 }
@@ -208,27 +436,20 @@
 }
 
 .transaction-table .table-row-cell:empty {
-    -fx-background-color: #151518;
+    -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
-/*
- * PENTING: Jangan set -fx-alignment di .table-cell via CSS global.
- * JavaFX mengabaikan !important, dan alignment global akan override
- * alignment yang di-set per-cell di Java.
- * Alignment diatur per-kolom di MainController via setAlignment(Pos.X).
- */
 .transaction-table .table-row-cell .table-cell {
     -fx-text-fill: #ddd;
     -fx-font-size: 13px;
     -fx-padding: 18 16;
-    /* TIDAK ada -fx-alignment di sini — dihandle Java */
 }
 
-/* Scrollbar */
+/* Scrollbars */
 
 .transaction-table .scroll-bar:vertical {
-    -fx-background-color: #151518;
+    -fx-background-color: transparent;
     -fx-pref-width: 8;
 }
 
@@ -247,42 +468,175 @@
     -fx-padding: 0;
 }
 
-/* Remove focus ring */
-
 .transaction-table:focused {
-    -fx-background-color: #151518;
+    -fx-background-color: transparent;
 }
 
-/* ================= CATEGORY BADGES ================= */
+/* ================= BADGES & PILLS ================= */
 
+/* Category Badges */
 .category-badge {
     -fx-padding: 5 12;
     -fx-background-radius: 6;
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
 }
 
 .badge-software {
-    -fx-background-color: rgba(6, 95, 70, 0.25);
-    -fx-text-fill: #4ADE80;
+    -fx-background-color: rgba(6, 182, 212, 0.15);
+    -fx-text-fill: #06B6D4;
 }
 
 .badge-revenue {
-    -fx-background-color: rgba(6, 95, 70, 0.25);
+    -fx-background-color: rgba(74, 222, 128, 0.15);
+    -fx-text-fill: #4ADE80;
+}
+
+.badge-salary {
+    -fx-background-color: rgba(74, 222, 128, 0.15);
     -fx-text-fill: #4ADE80;
 }
 
 .badge-travel {
-    -fx-background-color: rgba(127, 29, 29, 0.25);
+    -fx-background-color: rgba(239, 68, 68, 0.15);
     -fx-text-fill: #F87171;
 }
 
 .badge-marketing {
-    -fx-background-color: rgba(120, 53, 15, 0.25);
+    -fx-background-color: rgba(245, 158, 11, 0.15);
     -fx-text-fill: #FBBF24;
 }
 
 .badge-office {
-    -fx-background-color: rgba(30, 58, 95, 0.25);
+    -fx-background-color: rgba(99, 102, 241, 0.15);
+    -fx-text-fill: #818CF8;
+}
+
+.badge-housing {
+    -fx-background-color: rgba(245, 158, 11, 0.15);
+    -fx-text-fill: #FBBF24;
+}
+
+.badge-food-dining {
+    -fx-background-color: rgba(6, 182, 212, 0.15);
+    -fx-text-fill: #06B6D4;
+}
+
+.badge-transport {
+    -fx-background-color: rgba(59, 130, 246, 0.15);
     -fx-text-fill: #60A5FA;
+}
+
+.badge-other {
+    -fx-background-color: rgba(107, 114, 128, 0.15);
+    -fx-text-fill: #9CA3AF;
+}
+
+/* Status Badges */
+.status-badge {
+    -fx-padding: 4 10;
+    -fx-background-radius: 6;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-transform: uppercase;
+}
+
+.badge-completed {
+    -fx-background-color: rgba(74, 222, 128, 0.12);
+    -fx-text-fill: #4ADE80;
+}
+
+.badge-pending {
+    -fx-background-color: rgba(251, 191, 36, 0.12);
+    -fx-text-fill: #FBBF24;
+}
+
+/* ================= FILTERS & PAGINATION FOOTER ================= */
+
+.header-box {
+    -fx-padding: 20 10 0 10;
+    -fx-min-height: 80;
+}
+
+.page-title {
+    -fx-text-fill: white;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}
+
+.page-subtitle {
+    -fx-text-fill: #888;
+    -fx-font-size: 14px;
+}
+
+.filter-box {
+    -fx-background-color: #232329;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-pref-height: 32;
+    -fx-border-color: #333;
+    -fx-border-radius: 8;
+}
+
+.filter-box:hover {
+    -fx-background-color: #2e2e36;
+}
+
+.export-button {
+    -fx-background-color: #232329;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-padding: 6 14;
+    -fx-pref-height: 32;
+    -fx-border-color: #333;
+    -fx-border-radius: 8;
+}
+
+.export-button:hover {
+    -fx-background-color: #2e2e36;
+}
+
+/* Pagination */
+
+.pagination-footer {
+    -fx-border-color: #222 transparent transparent transparent;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.pagination-info {
+    -fx-text-fill: #777777;
+    -fx-font-size: 13px;
+}
+
+.pagination-controls .pager-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B8B8B8;
+    -fx-font-size: 12px;
+    -fx-padding: 6 10;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-border-color: #2D2D35;
+    -fx-border-radius: 6;
+}
+
+.pagination-controls .pager-btn:hover {
+    -fx-background-color: #232329;
+    -fx-text-fill: white;
+}
+
+.pagination-controls .pager-active {
+    -fx-background-color: #00C2FF;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-border-color: #00C2FF;
+}
+
+.pagination-controls .pager-active:hover {
+    -fx-background-color: #26D0FF;
+    -fx-text-fill: black;
 }

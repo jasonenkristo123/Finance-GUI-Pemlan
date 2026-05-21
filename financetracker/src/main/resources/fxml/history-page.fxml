@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="frontend.controllers.HistoryController"
+      spacing="25"
+      styleClass="content-container">
+
+    <!-- Header Box -->
+    <BorderPane styleClass="header-box">
+        <left>
+            <VBox spacing="5" BorderPane.alignment="CENTER_LEFT">
+                <Label text="Transaction History" styleClass="page-title"/>
+                <Label text="Review and filter your recent financial activities." styleClass="page-subtitle"/>
+            </VBox>
+        </left>
+        <right>
+            <HBox spacing="10" alignment="BOTTOM_RIGHT" BorderPane.alignment="BOTTOM_RIGHT">
+                <padding>
+                    <Insets bottom="5"/>
+                </padding>
+                <ComboBox fx:id="categoryFilter" promptText="All Categories" styleClass="filter-box"/>
+                <ComboBox fx:id="dateFilter" promptText="Last 30 Days" styleClass="filter-box"/>
+                <Button fx:id="exportButton" text="↓ Export" onAction="#handleExport" styleClass="export-button"/>
+            </HBox>
+        </right>
+    </BorderPane>
+
+    <!-- Table View -->
+    <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS" styleClass="transaction-table">
+        <columns>
+            <TableColumn fx:id="dateColumn"     text="DATE"     prefWidth="140" sortable="false"/>
+            <TableColumn fx:id="categoryColumn" text="CATEGORY" prefWidth="160" sortable="false"/>
+            <TableColumn fx:id="typeColumn"     text="TYPE"     prefWidth="160" sortable="false"/>
+            <TableColumn fx:id="notesColumn"    text="NOTES"    prefWidth="350" sortable="false"/>
+            <TableColumn fx:id="amountColumn"   text="AMOUNT"   prefWidth="170" sortable="false"/>
+        </columns>
+    </TableView>
+
+    <!-- Pagination Footer -->
+    <HBox alignment="CENTER_LEFT" styleClass="pagination-footer">
+        <padding>
+            <Insets top="10" right="5" bottom="10" left="5"/>
+        </padding>
+        <Label fx:id="paginationLabel" text="Showing 1-8 of 8 entries" styleClass="pagination-info"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox spacing="5" alignment="CENTER" styleClass="pagination-controls">
+            <Button text="&lt;" styleClass="pager-btn, pager-nav-btn"/>
+            <Button text="1" styleClass="pager-btn, pager-num-btn, pager-active"/>
+            <Button text="2" styleClass="pager-btn, pager-num-btn"/>
+            <Button text="3" styleClass="pager-btn, pager-num-btn"/>
+            <Button text="&gt;" styleClass="pager-btn, pager-nav-btn"/>
+        </HBox>
+    </HBox>
+
+</VBox>
