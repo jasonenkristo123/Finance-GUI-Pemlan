@@ -25,8 +25,7 @@ public class Main extends Application {
 
         stage.setTitle("Finance Tracker");
         stage.setScene(scene);
-        stage.setWidth(1200);
-        stage.setHeight(700);
+        stage.setMaximized(true);
         stage.show();
     }
 
