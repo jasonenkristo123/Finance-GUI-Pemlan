@@ -15,13 +15,19 @@ import java.util.ResourceBundle;
 
 public class AddTransactionController implements Initializable {
 
-    @FXML private ComboBox<String> typeInput;
-    @FXML private TextField amountInput;
-    @FXML private ComboBox<String> categoryInput;
-    @FXML private DatePicker dateInput;
-    @FXML private TextArea notesInput;
+    @FXML
+    private ComboBox<String> typeInput;
+    @FXML
+    private TextField amountInput;
+    @FXML
+    private ComboBox<String> categoryInput;
+    @FXML
+    private DatePicker dateInput;
+    @FXML
+    private TextArea notesInput;
 
-    @FXML private Label validationErrorLabel;
+    @FXML
+    private Label validationErrorLabel;
 
     private MainController mainController;
 
@@ -35,8 +41,7 @@ public class AddTransactionController implements Initializable {
         typeInput.setItems(FXCollections.observableArrayList("Income", "Expense"));
         categoryInput.setItems(FXCollections.observableArrayList(
                 "Salary", "Software", "Revenue", "Travel", "Marketing",
-                "Office", "Housing", "Food & Dining", "Transport", "Other"
-        ));
+                "Office", "Housing", "Food & Dining", "Transport", "Other"));
 
         // Default setup
         resetForm();
@@ -93,25 +98,33 @@ public class AddTransactionController implements Initializable {
         double finalAmount = type.equals("Expense") ? -rawAmount : rawAmount;
 
         // Date format: "Oct 24, 2023"
-        String formattedDate = localDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"));
+        String formattedDate = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // "MMM dd, yyyy" tadi
 
         // Save
         Transaction newTransaction = new Transaction(
                 formattedDate,
                 category,
-                type.equals("Expense") ? "Subscription" : "Direct Deposit", // Type details
+                type, // .equals("Expense") ? "Subscription" : "Direct Deposit", // Type details
                 notes,
                 finalAmount,
                 "Completed" // Default state
         );
 
-        TransactionState.getInstance().addTransaction(newTransaction);
+        boolean isSavedToDatabase = frontend.database.TransactionDAO.insertTransaction(newTransaction);
+
+        // 👇 BAGIAN INI MASIH ADA, TAPI DIBUNGKUS IF 👇
+        if (isSavedToDatabase) {
+            TransactionState.getInstance().addTransaction(newTransaction);
+            resetForm();
+            if (mainController != null) {
+                mainController.navigateToDashboard();
+            }
+        } else {
+            showError("Database error! Failed to save transaction.");
+        }
 
         // Reset & Navigate Back
-        resetForm();
-        if (mainController != null) {
-            mainController.navigateToDashboard();
-        }
+
     }
 
     @FXML

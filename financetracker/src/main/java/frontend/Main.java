@@ -5,23 +5,26 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import frontend.database.ConnectDB;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
 
+        // Database implementation
+        System.out.println("Mengecek koneksi database...");
+        ConnectDB.getKoneksi();
+        // ....
         Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
 
         FXMLLoader fxmlLoader = new FXMLLoader(
-                Main.class.getResource("/fxml/main-layout.fxml")
-        );
+                Main.class.getResource("/fxml/main-layout.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load());
 
         scene.getStylesheets().add(
-                Main.class.getResource("/css/app.css").toExternalForm()
-        );
+                Main.class.getResource("/css/app.css").toExternalForm());
 
         stage.setTitle("Finance Tracker");
         stage.setScene(scene);
