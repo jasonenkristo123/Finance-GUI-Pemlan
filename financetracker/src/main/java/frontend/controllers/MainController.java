@@ -10,25 +10,37 @@ import javafx.scene.layout.Region;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import frontend.models.Transaction;
+
 public class MainController implements Initializable {
 
     // ── Navigation Buttons ─────────────────────────────────────────
-    @FXML private Button dashboardBtn;
-    @FXML private Button addTransactionBtn;
-    @FXML private Button historyBtn;
+    @FXML
+    private Button dashboardBtn;
+    @FXML
+    private Button addTransactionBtn;
+    @FXML
+    private Button historyBtn;
 
     // ── Global Search ──────────────────────────────────────────────
-    @FXML private TextField searchField;
+    @FXML
+    private TextField searchField;
 
     // ── Modular included pages (referenced by fx:id in main-layout.fxml)
-    @FXML private Region dashboardPage;
-    @FXML private Region addTransactionPage;
-    @FXML private Region historyPage;
+    @FXML
+    private Region dashboardPage;
+    @FXML
+    private Region addTransactionPage;
+    @FXML
+    private Region historyPage;
 
     // ── Associated child controllers (named: fx:id + "Controller")
-    @FXML private DashboardController dashboardPageController;
-    @FXML private AddTransactionController addTransactionPageController;
-    @FXML private HistoryController historyPageController;
+    @FXML
+    private DashboardController dashboardPageController;
+    @FXML
+    private AddTransactionController addTransactionPageController;
+    @FXML
+    private HistoryController historyPageController;
 
     // ── Lifecycle ─────────────────────────────────────────────────
 
@@ -42,11 +54,13 @@ public class MainController implements Initializable {
             addTransactionPageController.setMainController(this);
         }
 
-        // Connect the global topbar search directly to the History page search predicate
+        // Connect the global topbar search directly to the History page search
+        // predicate
         if (searchField != null && historyPageController != null) {
             searchField.textProperty().addListener((obs, oldVal, newVal) -> {
                 historyPageController.setSearchQuery(newVal);
-                // If user starts typing search query, auto-navigate to History page to display results
+                // If user starts typing search query, auto-navigate to History page to display
+                // results
                 if (newVal != null && !newVal.trim().isEmpty() && historyPage != null && !historyPage.isVisible()) {
                     navigateToHistory();
                 }
@@ -84,16 +98,26 @@ public class MainController implements Initializable {
         showPage(addTransactionPage, addTransactionBtn);
     }
 
+    public void goToEditTransaction(Transaction trx) {
+        if (addTransactionPageController != null) {
+            addTransactionPageController.setTransactionToEdit(trx);
+            navigateToAddTransaction();
+        } else {
+            System.out.println("Error: Controller Add Transaction belum siap!");
+        }
+    }
+
     /**
      * Toggles visibility and managed properties, updating button styles.
      */
     private void showPage(Region targetPage, Button targetBtn) {
-        if (targetPage == null || targetBtn == null) return;
+        if (targetPage == null || targetBtn == null)
+            return;
 
         // Reset all views
-        setPageActive(dashboardPage,      false);
+        setPageActive(dashboardPage, false);
         setPageActive(addTransactionPage, false);
-        setPageActive(historyPage,        false);
+        setPageActive(historyPage, false);
 
         // Reset active sidebar buttons
         dashboardBtn.getStyleClass().remove("active");

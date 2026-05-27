@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectDB {
-    // Sesuaikan dengan nama database kamu di phpMyAdmin
     private static final String DB_URL = "jdbc:mysql://localhost:3306/finance_db";
     private static final String USER = "root";
     private static final String PASS = "";

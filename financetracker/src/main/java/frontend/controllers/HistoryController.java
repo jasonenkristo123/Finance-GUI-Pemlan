@@ -16,24 +16,34 @@ import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
 
-    @FXML private ComboBox<String> categoryFilter;
-    @FXML private ComboBox<String> dateFilter;
-    @FXML private Button exportButton;
+    @FXML
+    private ComboBox<String> categoryFilter;
+    @FXML
+    private ComboBox<String> dateFilter;
+    @FXML
+    private Button exportButton;
 
     // Table
-    @FXML private TableView<Transaction> transactionTable;
-    @FXML private TableColumn<Transaction, String> dateColumn;
-    @FXML private TableColumn<Transaction, String> categoryColumn;
-    @FXML private TableColumn<Transaction, String> typeColumn;
-    @FXML private TableColumn<Transaction, String> notesColumn;
-    @FXML private TableColumn<Transaction, Number> amountColumn;
+    @FXML
+    private TableView<Transaction> transactionTable;
+    @FXML
+    private TableColumn<Transaction, String> dateColumn;
+    @FXML
+    private TableColumn<Transaction, String> categoryColumn;
+    @FXML
+    private TableColumn<Transaction, String> typeColumn;
+    @FXML
+    private TableColumn<Transaction, String> notesColumn;
+    @FXML
+    private TableColumn<Transaction, Number> amountColumn;
 
-    @FXML private Label paginationLabel;
+    @FXML
+    private Label paginationLabel;
 
     private FilteredList<Transaction> filteredData;
     private String searchQuery = "";
 
-    private static final String STYLE_LEFT  = "-fx-alignment: CENTER-LEFT;";
+    private static final String STYLE_LEFT = "-fx-alignment: CENTER-LEFT;";
     private static final String STYLE_RIGHT = "-fx-alignment: CENTER-RIGHT;";
 
     @Override
@@ -64,7 +74,8 @@ public class HistoryController implements Initializable {
 
         // Date Column
         dateColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? null : item);
                 setStyle(empty || item == null ? "" : STYLE_LEFT);
@@ -73,22 +84,26 @@ public class HistoryController implements Initializable {
 
         // Category Badge Column
         categoryColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setGraphic(null); setText(null); setStyle(""); return;
+                    setGraphic(null);
+                    setText(null);
+                    setStyle("");
+                    return;
                 }
                 String emoji = switch (item.toLowerCase()) {
-                    case "salary"    -> "💰";
-                    case "software"  -> "💻";
-                    case "revenue"   -> "🏦";
-                    case "travel"    -> "✈";
+                    case "salary" -> "💰";
+                    case "software" -> "💻";
+                    case "revenue" -> "🏦";
+                    case "travel" -> "✈";
                     case "marketing" -> "📢";
-                    case "office"    -> "🏢";
-                    case "housing"   -> "🏠";
+                    case "office" -> "🏢";
+                    case "housing" -> "🏠";
                     case "food & dining", "food" -> "🍔";
                     case "transport" -> "🚗";
-                    default          -> "📍";
+                    default -> "📍";
                 };
                 Label badge = new Label(emoji + "  " + item);
                 String styleClass = "badge-" + item.toLowerCase().replace(" & ", "-");
@@ -101,7 +116,8 @@ public class HistoryController implements Initializable {
 
         // Type Column
         typeColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? null : item);
                 setStyle(empty || item == null ? "" : STYLE_LEFT);
@@ -110,7 +126,8 @@ public class HistoryController implements Initializable {
 
         // Notes Column
         notesColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? null : item);
                 setStyle(empty || item == null ? "" : STYLE_LEFT);
@@ -119,9 +136,14 @@ public class HistoryController implements Initializable {
 
         // Amount Column with colors
         amountColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(Number item, boolean empty) {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) { setText(null); setStyle(""); return; }
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
                 double val = item.doubleValue();
                 setText(String.format("%s$%,.2f", val >= 0 ? "+" : "-", Math.abs(val)));
                 setStyle(STYLE_RIGHT + " -fx-text-fill: " + (val >= 0 ? "#4ADE80" : "#F87171") + ";");
@@ -134,13 +156,11 @@ public class HistoryController implements Initializable {
     private void setupFilters() {
         categoryFilter.setItems(FXCollections.observableArrayList(
                 "All Categories", "Salary", "Software", "Revenue", "Travel",
-                "Marketing", "Office", "Housing", "Food & Dining", "Transport", "Other"
-        ));
+                "Marketing", "Office", "Housing", "Food & Dining", "Transport", "Other"));
         categoryFilter.setValue("All Categories");
 
         dateFilter.setItems(FXCollections.observableArrayList(
-                "Last 30 Days", "Last 7 Days", "All Time"
-        ));
+                "Last 30 Days", "Last 7 Days", "All Time"));
         dateFilter.setValue("All Time");
     }
 
@@ -158,13 +178,15 @@ public class HistoryController implements Initializable {
                         || t.getCategory().toLowerCase().contains(lower)
                         || t.getType().toLowerCase().contains(lower)
                         || t.getDate().toLowerCase().contains(lower);
-                if (!matches) return false;
+                if (!matches)
+                    return false;
             }
 
             // 2. Category Filter
             String cat = categoryFilter.getValue();
             if (cat != null && !cat.equalsIgnoreCase("All Categories")) {
-                if (!t.getCategory().equalsIgnoreCase(cat)) return false;
+                if (!t.getCategory().equalsIgnoreCase(cat))
+                    return false;
             }
 
             // 3. Date Filter (simulated for simplicity or exact logic)
@@ -183,12 +205,13 @@ public class HistoryController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Export Status");
         alert.setHeaderText("CSV Export Initiated");
-        alert.setContentText("Your selected transactions have been successfully compiled and written to: finance_tracker_export.csv");
-        
+        alert.setContentText(
+                "Your selected transactions have been successfully compiled and written to: finance_tracker_export.csv");
+
         // Match AtlantaFX dark dialog styling if applicable
         DialogPane pane = alert.getDialogPane();
         pane.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
-        
+
         alert.showAndWait();
     }
 }

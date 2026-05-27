@@ -18,32 +18,47 @@ import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
 
-    @FXML private Label balanceLabel;
-    @FXML private Label incomeLabel;
-    @FXML private Label expenseLabel;
+    @FXML
+    private Label balanceLabel;
+    @FXML
+    private Label incomeLabel;
+    @FXML
+    private Label expenseLabel;
 
-    @FXML private Button viewAllBtn;
+    @FXML
+    private Button viewAllBtn;
 
     // Table
-    @FXML private TableView<Transaction> recentTable;
-    @FXML private TableColumn<Transaction, String> categoryColumn;
-    @FXML private TableColumn<Transaction, String> dateColumn;
-    @FXML private TableColumn<Transaction, Number> amountColumn;
-    @FXML private TableColumn<Transaction, String> statusColumn;
+    @FXML
+    private TableView<Transaction> recentTable;
+    @FXML
+    private TableColumn<Transaction, String> categoryColumn;
+    @FXML
+    private TableColumn<Transaction, String> dateColumn;
+    @FXML
+    private TableColumn<Transaction, Number> amountColumn;
+    @FXML
+    private TableColumn<Transaction, String> statusColumn;
 
     // Donut Chart
-    @FXML private PieChart expensePieChart;
-    @FXML private Label donutTotalLabel;
+    @FXML
+    private PieChart expensePieChart;
+    @FXML
+    private Label donutTotalLabel;
 
     // Breakdown Percentages
-    @FXML private Label housingPercentLabel;
-    @FXML private Label foodPercentLabel;
-    @FXML private Label transportPercentLabel;
-    @FXML private Label otherPercentLabel;
+    @FXML
+    private Label housingPercentLabel;
+    @FXML
+    private Label foodPercentLabel;
+    @FXML
+    private Label transportPercentLabel;
+    @FXML
+    private Label otherPercentLabel;
 
     private MainController mainController;
 
-    private static final String STYLE_LEFT  = "-fx-alignment: CENTER-LEFT;";
+    private static final String STYLE_LEFT = "-fx-alignment: CENTER-LEFT;";
     private static final String STYLE_RIGHT = "-fx-alignment: CENTER-RIGHT;";
 
     public void setMainController(MainController mainController) {
@@ -53,7 +68,7 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setupColumns();
-        
+
         // Load initial values
         updateDashboardData();
 
@@ -71,22 +86,26 @@ public class DashboardController implements Initializable {
 
         // Category with Emoji Badge
         categoryColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setGraphic(null); setText(null); setStyle(""); return;
+                    setGraphic(null);
+                    setText(null);
+                    setStyle("");
+                    return;
                 }
                 String emoji = switch (item.toLowerCase()) {
-                    case "salary"    -> "💰";
-                    case "software"  -> "💻";
-                    case "revenue"   -> "🏦";
-                    case "travel"    -> "✈";
+                    case "salary" -> "💰";
+                    case "software" -> "💻";
+                    case "revenue" -> "🏦";
+                    case "travel" -> "✈";
                     case "marketing" -> "📢";
-                    case "office"    -> "🏢";
-                    case "housing"   -> "🏠";
+                    case "office" -> "🏢";
+                    case "housing" -> "🏠";
                     case "food & dining", "food" -> "🍔";
                     case "transport" -> "🚗";
-                    default          -> "📍";
+                    default -> "📍";
                 };
                 Label badge = new Label(emoji + "  " + item);
                 String styleClass = "badge-" + item.toLowerCase().replace(" & ", "-");
@@ -99,7 +118,8 @@ public class DashboardController implements Initializable {
 
         // Date
         dateColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? null : item);
                 setStyle(empty || item == null ? "" : STYLE_LEFT);
@@ -108,9 +128,14 @@ public class DashboardController implements Initializable {
 
         // Amount with +/- and Red/Green Colors
         amountColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(Number item, boolean empty) {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) { setText(null); setStyle(""); return; }
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
                 double val = item.doubleValue();
                 setText(String.format("%s$%,.2f", val >= 0 ? "+" : "-", Math.abs(val)));
                 setStyle(STYLE_RIGHT + " -fx-text-fill: " + (val >= 0 ? "#4ADE80" : "#F87171") + ";");
@@ -119,10 +144,14 @@ public class DashboardController implements Initializable {
 
         // Status with Completed/Pending Badges
         statusColumn.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setGraphic(null); setText(null); setStyle(""); return;
+                    setGraphic(null);
+                    setText(null);
+                    setStyle("");
+                    return;
                 }
                 Label badge = new Label(item);
                 String subClass = item.equalsIgnoreCase("completed") ? "completed" : "pending";
@@ -166,10 +195,11 @@ public class DashboardController implements Initializable {
         double housing = state.getExpenseByCategory("housing");
         double food = state.getExpenseByCategory("food & dining") + state.getExpenseByCategory("food");
         double transport = state.getExpenseByCategory("transport") + state.getExpenseByCategory("travel");
-        
+
         // "Other" is total expenses minus housing, food, and transport
         double other = totalExpense - (housing + food + transport);
-        if (other < 0) other = 0;
+        if (other < 0)
+            other = 0;
 
         // Calculate percentages
         int pCtrl = 0;
@@ -177,7 +207,8 @@ public class DashboardController implements Initializable {
         int pFood = (int) Math.round((food / totalExpense) * 100);
         int pTransport = (int) Math.round((transport / totalExpense) * 100);
         int pOther = 100 - (pHousing + pFood + pTransport);
-        if (pOther < 0) pOther = 0;
+        if (pOther < 0)
+            pOther = 0;
 
         housingPercentLabel.setText(pHousing + "%");
         foodPercentLabel.setText(pFood + "%");
@@ -189,8 +220,7 @@ public class DashboardController implements Initializable {
                 new PieChart.Data("Housing", housing),
                 new PieChart.Data("Food", food),
                 new PieChart.Data("Transport", transport),
-                new PieChart.Data("Other", other)
-        );
+                new PieChart.Data("Other", other));
         expensePieChart.setData(chartData);
     }
 
@@ -198,6 +228,50 @@ public class DashboardController implements Initializable {
     private void handleViewAll(ActionEvent event) {
         if (mainController != null) {
             mainController.navigateToHistory();
+        }
+    }
+
+    @FXML
+    private void handleTombolEdit(ActionEvent event) {
+        // 1. Ambil data yang diklik di tabel
+        Transaction selectedTrx = recentTable.getSelectionModel().getSelectedItem();
+
+        if (selectedTrx != null) {
+            // 2. Suruh MainController pindah halaman SAMBIL membawa data transaksinya
+            if (mainController != null) {
+                mainController.goToEditTransaction(selectedTrx);
+            }
+        } else {
+            System.out.println("Peringatan: Pilih dulu transaksi di tabel yang mau diedit!");
+        }
+    }
+
+    @FXML
+    private void handleTombolDelete(ActionEvent event) {
+        // 1. Ambil data yang sedang di-klik/dipilih oleh user di tabel
+        Transaction selectedTrx = recentTable.getSelectionModel().getSelectedItem();
+
+        // 2. Cek apakah user benar-benar memilih data (bukan klik ruang kosong)
+        if (selectedTrx != null) {
+
+            // 3. Eksekusi hapus di Database MySQL lewat DAO
+            boolean isDeleted = frontend.database.TransactionDAO.deleteTransaction(selectedTrx.getId());
+
+            if (isDeleted) {
+                // 4. Jika sukses di MySQL, hapus juga dari memori UI
+                TransactionState.getInstance().getTransactions().remove(selectedTrx);
+
+                System.out.println("Sukses: Data berhasil dihapus dari database!");
+
+                // Catatan: Layar akan otomatis ter-update karena di fungsi initialize() kamu
+                // sudah memasang listener (ListChangeListener) yang memanggil
+                // updateDashboardData().
+            } else {
+                System.out.println("Error: Gagal menghapus data dari database.");
+            }
+
+        } else {
+            System.out.println("Peringatan: Pilih transaksi di tabel terlebih dahulu!");
         }
     }
 }

@@ -30,6 +30,17 @@ public class AddTransactionController implements Initializable {
     private Label validationErrorLabel;
 
     private MainController mainController;
+    private Transaction transactionToEdit = null;
+
+    public void setTransactionToEdit(Transaction trx) {
+        this.transactionToEdit = trx;
+
+        typeInput.setValue(trx.getType());
+        amountInput.setText(String.valueOf(Math.abs(trx.getAmount())));
+        categoryInput.setValue(trx.getCategory());
+        dateInput.setValue(LocalDate.parse(trx.getDate()));
+        notesInput.setText(trx.getNotes());
+    }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -100,29 +111,53 @@ public class AddTransactionController implements Initializable {
         // Date format: "Oct 24, 2023"
         String formattedDate = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // "MMM dd, yyyy" tadi
 
-        // Save
-        Transaction newTransaction = new Transaction(
-                formattedDate,
-                category,
-                type, // .equals("Expense") ? "Subscription" : "Direct Deposit", // Type details
-                notes,
-                finalAmount,
-                "Completed" // Default state
-        );
+        // here
+        if (transactionToEdit == null) {
+            // ================= MODE TAMBAH BARU =================
+            Transaction newTransaction = new Transaction(formattedDate, category, type, notes, finalAmount,
+                    "Completed");
+            boolean isSaved = frontend.database.TransactionDAO.insertTransaction(newTransaction);
 
-        boolean isSavedToDatabase = frontend.database.TransactionDAO.insertTransaction(newTransaction);
-
-        // 👇 BAGIAN INI MASIH ADA, TAPI DIBUNGKUS IF 👇
-        if (isSavedToDatabase) {
-            TransactionState.getInstance().addTransaction(newTransaction);
-            resetForm();
-            if (mainController != null) {
-                mainController.navigateToDashboard();
+            if (isSaved) {
+                TransactionState.getInstance().addTransaction(newTransaction);
+            } else {
+                showError("Database error! Failed to save.");
+                return;
             }
         } else {
-            showError("Database error! Failed to save transaction.");
+            // ================= MODE EDIT (UPDATE) =================
+            // Pakai ID dari transaksi yang lama
+            Transaction updatedTransaction = new Transaction(formattedDate, category, type, notes, finalAmount,
+                    "Completed");
+            updatedTransaction.setId(transactionToEdit.getId());
+
+            boolean isUpdated = frontend.database.TransactionDAO.updateTransaction(updatedTransaction);
+
+            if (isUpdated) {
+
+                var list = TransactionState.getInstance().getTransactions();
+                for (int i = 0; i < list.size(); i++) {
+                    // Cari data di layar yang ID-nya sama dengan ID yang diedit
+                    if (list.get(i).getId() == updatedTransaction.getId()) {
+                        list.set(i, updatedTransaction); // Timpa baris tersebut dengan data baru!
+                        break; // Hentikan pencarian jika sudah ketemu
+                    }
+                }
+
+            } else {
+                showError("Database error! Failed to update.");
+                return;
+            }
         }
 
+        // Reset & kembali ke Dashboard
+        transactionToEdit = null; // Kembalikan ke mode awal
+        resetForm();
+        if (mainController != null) {
+            mainController.navigateToDashboard();
+        }
+        // here
+        // Save
         // Reset & Navigate Back
 
     }

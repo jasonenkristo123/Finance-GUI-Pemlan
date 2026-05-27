@@ -72,7 +72,10 @@
                     <TableColumn fx:id="amountColumn"   text="AMOUNT"   prefWidth="160" sortable="false"/>
                     <TableColumn fx:id="statusColumn"   text="STATUS"   prefWidth="140" sortable="false"/>
                 </columns>
-            </TableView>
+            </TableView> 
+            <!--> Delete and Edit buttons -->
+            <Button text="Delete Transaction" onAction="#handleTombolDelete" style="-fx-background-color: #FF4C4C; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 20px; -fx-padding: 8px 20px; -fx-cursor: hand;" />
+            <Button text="Edit Transaction" onAction="#handleTombolEdit" style="-fx-background-color: #00C2FF; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 20px; -fx-padding: 8px 20px; -fx-cursor: hand;" />
         </VBox>
 
         <!-- Right: Expense Breakdown Donut Chart Panel -->
