@@ -27,6 +27,10 @@ public class TransactionState {
         transactions.add(0, t);
     }
 
+    public void removeTransaction(Transaction t) {
+        transactions.remove(t);
+    }
+
     public double getTotalIncome() {
         return transactions.stream()
                 .mapToDouble(Transaction::getAmount)

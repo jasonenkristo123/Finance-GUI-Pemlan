@@ -10,8 +10,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
@@ -93,22 +100,7 @@ public class HistoryController implements Initializable {
                     setStyle("");
                     return;
                 }
-                String emoji = switch (item.toLowerCase()) {
-                    case "salary" -> "💰";
-                    case "software" -> "💻";
-                    case "revenue" -> "🏦";
-                    case "travel" -> "✈";
-                    case "marketing" -> "📢";
-                    case "office" -> "🏢";
-                    case "housing" -> "🏠";
-                    case "food & dining", "food" -> "🍔";
-                    case "transport" -> "🚗";
-                    default -> "📍";
-                };
-                Label badge = new Label(emoji + "  " + item);
-                String styleClass = "badge-" + item.toLowerCase().replace(" & ", "-");
-                badge.getStyleClass().addAll("category-badge", styleClass);
-                setGraphic(badge);
+                setGraphic(CategoryBadgeUtil.createBadge(item));
                 setText(null);
                 setStyle(STYLE_LEFT);
             }
@@ -189,8 +181,19 @@ public class HistoryController implements Initializable {
                     return false;
             }
 
-            // 3. Date Filter (simulated for simplicity or exact logic)
-            // Can be expanded as needed.
+            // 3. Date Filter — Last 7 Days / Last 30 Days
+            String dateRange = dateFilter.getValue();
+            if (dateRange != null && !dateRange.equalsIgnoreCase("All Time")) {
+                try {
+                    LocalDate txDate = LocalDate.parse(t.getDate());
+                    LocalDate cutoff = dateRange.equalsIgnoreCase("Last 7 Days")
+                            ? LocalDate.now().minusDays(7)
+                            : LocalDate.now().minusDays(30);
+                    if (txDate.isBefore(cutoff)) return false;
+                } catch (Exception ignored) {
+                    // If date can't be parsed, include the row
+                }
+            }
 
             return true;
         });
@@ -202,16 +205,56 @@ public class HistoryController implements Initializable {
 
     @FXML
     private void handleExport(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Export Status");
-        alert.setHeaderText("CSV Export Initiated");
-        alert.setContentText(
-                "Your selected transactions have been successfully compiled and written to: finance_tracker_export.csv");
+        // Show a save dialog so the user can choose where to save the file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Transactions to CSV");
+        fileChooser.setInitialFileName("finance_tracker_export.csv");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
 
-        // Match AtlantaFX dark dialog styling if applicable
-        DialogPane pane = alert.getDialogPane();
-        pane.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
+        Stage stage = (Stage) exportButton.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
 
-        alert.showAndWait();
+        if (file == null) {
+            // User cancelled the dialog — do nothing
+            return;
+        }
+
+        // Write the filtered transactions currently shown in the table
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            // CSV header
+            writer.write("Date,Category,Type,Notes,Amount,Status");
+            writer.newLine();
+
+            for (Transaction t : filteredData) {
+                // Wrap fields in quotes to handle commas inside notes
+                String line = String.format("\"%s\",\"%s\",\"%s\",\"%s\",%,.2f,\"%s\"",
+                        t.getDate(),
+                        t.getCategory(),
+                        t.getType(),
+                        t.getNotes().replace("\"", "\"\""), // escape quotes
+                        t.getAmount(),
+                        t.getStatus());
+                writer.write(line);
+                writer.newLine();
+            }
+
+            // Success feedback
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Export Successful");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                    filteredData.size() + " transaction(s) exported to:\n" + file.getAbsolutePath());
+            DialogPane pane = alert.getDialogPane();
+            pane.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
+            alert.showAndWait();
+
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Export Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Could not write file:\n" + e.getMessage());
+            alert.showAndWait();
+        }
     }
 }

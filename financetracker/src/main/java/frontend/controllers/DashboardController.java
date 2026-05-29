@@ -95,22 +95,7 @@ public class DashboardController implements Initializable {
                     setStyle("");
                     return;
                 }
-                String emoji = switch (item.toLowerCase()) {
-                    case "salary" -> "💰";
-                    case "software" -> "💻";
-                    case "revenue" -> "🏦";
-                    case "travel" -> "✈";
-                    case "marketing" -> "📢";
-                    case "office" -> "🏢";
-                    case "housing" -> "🏠";
-                    case "food & dining", "food" -> "🍔";
-                    case "transport" -> "🚗";
-                    default -> "📍";
-                };
-                Label badge = new Label(emoji + "  " + item);
-                String styleClass = "badge-" + item.toLowerCase().replace(" & ", "-");
-                badge.getStyleClass().addAll("category-badge", styleClass);
-                setGraphic(badge);
+                setGraphic(CategoryBadgeUtil.createBadge(item));
                 setText(null);
                 setStyle(STYLE_LEFT);
             }
@@ -202,7 +187,6 @@ public class DashboardController implements Initializable {
             other = 0;
 
         // Calculate percentages
-        int pCtrl = 0;
         int pHousing = (int) Math.round((housing / totalExpense) * 100);
         int pFood = (int) Math.round((food / totalExpense) * 100);
         int pTransport = (int) Math.round((transport / totalExpense) * 100);
@@ -258,8 +242,8 @@ public class DashboardController implements Initializable {
             boolean isDeleted = frontend.database.TransactionDAO.deleteTransaction(selectedTrx.getId());
 
             if (isDeleted) {
-                // 4. Jika sukses di MySQL, hapus juga dari memori UI
-                TransactionState.getInstance().getTransactions().remove(selectedTrx);
+                // 4. Jika sukses di MySQL, hapus juga dari memori UI lewat abstraksi state
+                TransactionState.getInstance().removeTransaction(selectedTrx);
 
                 System.out.println("Sukses: Data berhasil dihapus dari database!");
 
