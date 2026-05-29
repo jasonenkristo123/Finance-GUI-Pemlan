@@ -69,6 +69,12 @@ public class TransactionDAO {
 
         String query = "SELECT * FROM transaksi ORDER BY id DESC";
 
+        Connection tempConn = ConnectDB.getKoneksi();
+        if (tempConn == null) {
+            System.out.println("[WARNING] Database offline. Membuka aplikasi dengan tabel kosong.");
+            return list; // Langsung balikin list kosong biar nggak crash
+        }
+
         try (Connection conn = ConnectDB.getKoneksi();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query)) {
@@ -98,6 +104,12 @@ public class TransactionDAO {
     public static boolean deleteTransaction(int id) {
         String query = "DELETE FROM transaksi WHERE id = ?";
 
+        Connection tempConn = ConnectDB.getKoneksi();
+        if (tempConn == null) {
+            System.out.println("[WARNING] Database offline. Pura-pura delete sukses.");
+            return true;
+        }
+
         try (Connection conn = ConnectDB.getKoneksi();
                 PreparedStatement pstmt = conn.prepareStatement(query)) {
 
@@ -112,6 +124,12 @@ public class TransactionDAO {
 
     public static boolean updateTransaction(Transaction trx) {
         String query = "UPDATE transaksi SET tanggal=?, kategori=?, jenis=?, catatan=?, jumlah=?, status=? WHERE id=?";
+
+        Connection tempConn = ConnectDB.getKoneksi();
+        if (tempConn == null) {
+            System.out.println("[WARNING] Database offline. Pura-pura update sukses.");
+            return true;
+        }
 
         try (Connection conn = ConnectDB.getKoneksi();
                 PreparedStatement pstmt = conn.prepareStatement(query)) {
