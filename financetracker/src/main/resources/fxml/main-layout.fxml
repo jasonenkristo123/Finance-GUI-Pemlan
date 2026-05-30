@@ -21,11 +21,10 @@
             <VBox spacing="10">
                 <Button fx:id="dashboardBtn" text="Dashboard" styleClass="nav-button" onAction="#handleNavigation"/>
                 <Button fx:id="addTransactionBtn" text="Add Transaction" styleClass="nav-button" onAction="#handleNavigation"/>
-                <Button fx:id="historyBtn" text="History" styleClass="nav-button active" onAction="#handleNavigation"/>
+                <Button fx:id="historyBtn" text="History" styleClass="nav-button" onAction="#handleNavigation"/>
             </VBox>
 
             <VBox VBox.vgrow="ALWAYS"/>
-            <Button text="+ New Report" styleClass="report-button"/>
         </VBox>
     </left>
 

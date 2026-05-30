@@ -1,11 +1,10 @@
-/* ================= DYNAMIC STYLE SYSTEM ================= */
+
 
 .root-container {
     -fx-background-color: #0F0F11;
     -fx-font-family: "Segoe UI", -apple-system, sans-serif;
 }
 
-/* ================= SIDEBAR ================= */
 
 .sidebar {
     -fx-background-color: #151518;
@@ -47,20 +46,7 @@
     -fx-font-weight: bold;
 }
 
-/* Report Button */
 
-.report-button {
-    -fx-background-color: #00C2FF;
-    -fx-text-fill: black;
-    -fx-font-weight: bold;
-    -fx-background-radius: 12;
-    -fx-padding: 10 18;
-    -fx-cursor: hand;
-}
-
-.report-button:hover {
-    -fx-background-color: #26D0FF;
-}
 
 /* ================= TOPBAR ================= */
 
